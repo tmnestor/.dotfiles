@@ -84,7 +84,7 @@ ZSH_THEME="agnoster"
 plugins=(
     alias-finder
     git
-    # zsh-syntax-highlighting
+    zsh-syntax-highlighting
     # brew
     # extract
     # web-search
