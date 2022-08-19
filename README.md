@@ -35,9 +35,7 @@ Deactivate licenses:
 5. Do one last Software Audit by editing [Brewfile](Brewfile) directly.
 6. [`./install`](install)
 7. Restart computer.
-8. Setup up Dropbox (use multifactor authentication!) and allow files to sync before setting up dependent applications. Alfred settings are stored here. Mackup depends on this as well (and thus so do Terminal and VS Code).
-9. Run `mackup restore`. Consider doing a `mackup restore --dry-run --verbose` first.
-10. [Generate ssh key](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh), add to GitHub, and switch remotes.
+8. [Generate ssh key](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh), add to GitHub, and switch remotes.
 
     ```zsh
     # Generate SSH key in default location (~/.ssh/config)
