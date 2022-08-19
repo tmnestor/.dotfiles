@@ -52,8 +52,8 @@ Deactivate licenses:
       IdentityFile ~/.ssh/id_rsa
     EOF
 
-    # Add private key to ssh-agent 
-    ssh-add -K ~/.ssh/id_rsa
+    # Add private key to ssh-agent (macos 12.0 Monterey) 
+    ssh-add --apple-use-keychain ~/.ssh/id_rsa
 
     # Copy public key and add to github.com > Settings > SSH and GPG keys
     pbcopy < ~/.ssh/id_rsa.pub
