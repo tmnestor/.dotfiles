@@ -29,7 +29,7 @@ Deactivate licenses:
 ## Restore Instructions
 
 1. `xcode-select --install` (Command Line Tools are required for Git and Homebrew)
-2. `git clone https://github.com/eieioxyz/dotfiles_macos.git ~/.dotfiles`. We'll start with `https` but switch to `ssh` after everything is installed.
+2. `git clone https://github.com/tmnestor/.dotfiles.git ~/.dotfiles`. Start with `https` but switch to `ssh` after everything is installed.
 3. `cd ~/.dotfiles`
 4. If necessary, `git checkout <another_branch>`.
 5. Do one last Software Audit by editing [Brewfile](Brewfile) directly.
@@ -41,7 +41,7 @@ Deactivate licenses:
 
     ```zsh
     # Generate SSH key in default location (~/.ssh/config)
-    ssh-keygen -t rsa -b 4096 -C "66495007+eieioxyz@users.noreply.github.com"
+    ssh-keygen -t rsa -b 4096 -C "101078845+tmnestor@users.noreply.github.com"
 
     # Start the ssh-agent
     eval "$(ssh-agent -s)"
@@ -65,23 +65,35 @@ Deactivate licenses:
     ssh -T git@github.com
 
     # Switch from HTTPS to SSH
-    git remote set-url origin git@github.com:eieioxyz/dotfiles_macos.git
+    git remote set-url origin git@github.com:tmnestor/.dotfiles.git
     ```
+## Create symlinks in the Home directory to the real files in the repo.
+
+```zsh
+# There are better and less manual ways to do this;
+# investigate install scripts and bootstrapping tools.
+
+ln -s ~/.dotfiles/.zshrc ~/.zshrc
+ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
+```
 
 
-### Manual Steps
+## Install Homebrew, followed by the software listed in the Brewfile.
 
-#### Snappy App
+```zsh
+# These could also be in an install script.
 
-1. `System Preferences > Keyboard > Shortcuts > Screenshots > Save picture of selected area as a file (cmd+shift+4)` uncheck.
-2. `Snappy Preferences > General > Take snap` change from `cmd+shift+2` (which conflicts with ScreenFlow) to `cmd+shift+4`.
+# Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-#### Alfred
+# Then pass in the Brewfile location...
+brew bundle --file ~/.dotfiles/Brewfile
 
-1. `System Preferences > Keyboard > Shortcuts > Spotlight > Show Spotlight search (cmd+space)` uncheck.
-2. `Alfred Preferences > Powerpack` add License.
-3. `Alfred Preferences > General > Request Permissions`.
-4. `Alfred Preferences > General > Alfred Hotkey` change to `cmd+space`.
-5. `Alfred Preferences > Advanced > Set preferences folder` and set to `~/Dropbox/dotfiles/Alfred`.
+# ...or move to the directory first.
+cd ~/.dotfiles && brew bundle
+```
+
+
+
 
 
