@@ -91,8 +91,8 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -117,7 +117,7 @@ fi
 #
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias gbash="/opt/homebrew/bin/bash"
+alias gbash="$(brew --prefix)/bin/bash"
 alias awk="gawk"
 alias zshupdate="source ~/.zshrc"
 alias zshconfig="code ~/.zshrc"
