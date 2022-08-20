@@ -1,3 +1,28 @@
+# https://scriptingosx.com/2019/06/moving-to-zsh-part-3-shell-options/
+# shell history location saved across shell exits
+# use ZDOTDIR when it is or HOME otherwise
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+# make zsh add a bit more data (timestamp in unix epoch time and elapsed time of the command) 
+setopt EXTENDED_HISTORY
+SAVEHIST=5000
+HISTSIZE=2000
+# share history across multiple zsh sessions
+setopt SHARE_HISTORY
+# append to history
+setopt APPEND_HISTORY
+# adds commands as they are typed, not at shell exit
+setopt INC_APPEND_HISTORY
+# expire duplicates first
+setopt HIST_EXPIRE_DUPS_FIRST 
+# do not store duplications
+setopt HIST_IGNORE_DUPS
+#ignore duplicates when searching
+setopt HIST_FIND_NO_DUPS
+# removes blank lines from history
+setopt HIST_REDUCE_BLANKS
+setopt CORRECT
+setopt CORRECT_ALL
+
 # authenticate to github
 # ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
@@ -121,6 +146,8 @@ alias gbash="$(brew --prefix)/bin/bash"
 alias awk="gawk"
 alias zshupdate="source ~/.zshrc"
 alias zshconfig="code ~/.zshrc"
+# code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+
 alias ls="exa --icons"
 # general use
 # alias ls='exa'                                                         # ls
@@ -136,6 +163,7 @@ alias lt='exa --tree --level=2'                                         # tree
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+
 # https://www.mediaglasses.blog/2021/10/30/managing-python-on-macos-monterey/
 if command -v pyenv 1>/dev/null 2>&1; then
   export PYENV_ROOT="$HOME/.pyenv"
@@ -143,3 +171,19 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
 fi
+
+# run conda init zsh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/tod/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/tod/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/tod/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/tod/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
