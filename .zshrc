@@ -143,9 +143,9 @@ fi
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias gbash="$(brew --prefix)/bin/bash"
-alias awk="gawk"
-alias zshupdate="source ~/.zshrc"
-alias zshconfig="code ~/.zshrc"
+# alias awk="gawk"
+alias zshupdate="source ~/.dotfiles/.zshrc"
+alias zshconfig="code ~/.dotfiles/.zshrc"
 # code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
 alias ls="exa --icons"
