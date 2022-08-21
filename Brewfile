@@ -63,8 +63,12 @@ brew "tldr"
 brew "tree"
 # Online learning algorithm
 brew "vowpal-wabbit"
+# Internet file retriever
+brew "wget"
 # Fast CSV toolkit written in Rust
 brew "xsv"
+# Process YAML documents from the CLI
+brew "yq"
 # Tracks most-used directories to make cd smarter
 brew "z"
 # UNIX shell (command interpreter)
