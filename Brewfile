@@ -77,9 +77,22 @@ brew "zsh"
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# Application launcher and productivity software
+cask "alfred"
+# App to build and share containerized applications and microservices
+cask "docker"
+cask "font-hack-nerd-font"
+# Web browser
+cask "google-chrome"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
 # Scientific and technical publishing system built on Pandoc
 cask "quarto"
+# Move and resize windows using keyboard shortcuts or snap areas
+cask "rectangle"
 # Data science software focusing on R and Python
 cask "rstudio"
+# Open-source code editor
+cask "visual-studio-code"
 # Remote desktop application focusing on security
 cask "vnc-viewer"
