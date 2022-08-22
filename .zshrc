@@ -1,3 +1,8 @@
+# https://gomakethings.com/changing-the-default-text-editor-on-macos/
+# To Configure VS Code ast the system wide default editor in Launch Services, 
+# run the following once and then restart
+# defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType=public.plain-text;LSHandlerRoleAll=com.microsoft.VSCode;}'
+
 # https://scriptingosx.com/2019/06/moving-to-zsh-part-3-shell-options/
 # shell history location saved across shell exits
 # use ZDOTDIR when it is or HOME otherwise
