@@ -146,6 +146,7 @@ alias gbash="$(brew --prefix)/bin/bash"
 # alias awk="gawk"
 alias zshupdate="source ~/.dotfiles/.zshrc"
 alias zshconfig="code ~/.dotfiles/.zshrc"
+export EDITOR="code -w"
 # code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
 alias ls="exa --icons"
