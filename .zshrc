@@ -36,11 +36,16 @@ setopt CORRECT_ALL
 
 # export G="/Volumes/GoogleDrive/My Drive/"
 # $(brew --prefix) is /opt/homebrew/
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export PATH="$(brew --prefix)/bin:$(brew --prefix)/sbin:$PATH"
 export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$HOME/Documents/Unix/dsutils:$PATH"
 
+
+# export PATH="$(brew --prefix)/Caskroom/miniconda/base/bin:$PATH"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -149,6 +154,7 @@ fi
 #
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ppath="tr ':' '\n' <<< $PATH"
 alias gbash="$(brew --prefix)/bin/bash"
 # alias awk="gawk"
 alias zshupdate="source ~/.dotfiles/.zshrc"
@@ -173,24 +179,31 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 
 # https://www.mediaglasses.blog/2021/10/30/managing-python-on-macos-monterey/
-if command -v pyenv 1>/dev/null 2>&1; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-fi
+# uninstall: https://stackoverflow.com/questions/51797189/how-to-uninstall-pyenvinstalled-by-homebrew-on-mac
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   export PYENV_ROOT="$HOME/.pyenv"
+#   export PATH="$PYENV_ROOT/bin:$PATH"
+#   eval "$(pyenv init --path)"
+#   eval "$(pyenv init -)"
+# fi
 
 # run conda init zsh
+
+# conda init "$(basename "${SHELL}")"
+# PREFIX=/usr/local/Caskroom/miniconda/base
+# Linking Binary 'conda' to '/usr/local/bin/conda'
+
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$($(brew --prefix)/Caskroom/miniconda/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "$(brew --prefix)/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+        . "$(brew --prefix)/Caskroom/miniconda/base/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/miniconda3/bin:$PATH"
+        export PATH="$(brew --prefix)/Caskroom/miniconda/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
