@@ -45,10 +45,10 @@ brew "openssl@3"
 brew "osxutils"
 # Shell command parallelization utility
 brew "parallel"
+# Object-relational database system
+brew "postgresql", restart_service: true
 # Parse HTML at the command-line
 brew "pup"
-# Python version management
-brew "pyenv"
 # Software environment for statistical computing
 brew "r"
 # GNU's Restricted User SHell
@@ -86,6 +86,10 @@ cask "font-hack-nerd-font"
 cask "google-chrome"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Minimal installer for conda
+cask "miniconda"
+# Administration and development platform for PostgreSQL
+cask "pgadmin4"
 # Scientific and technical publishing system built on Pandoc
 cask "quarto"
 # Move and resize windows using keyboard shortcuts or snap areas
