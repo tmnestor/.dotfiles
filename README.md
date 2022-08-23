@@ -39,7 +39,7 @@ Deactivate licenses:
 
     ```zsh
     # Generate SSH key in default location (~/.ssh/config)
-    ssh-keygen -t rsa -b 4096 -C "101078845+tmnestor@users.noreply.github.com"
+    ssh-keygen -t ed25519 -C "101078845+tmnestor@users.noreply.github.com"
 
     # Start the ssh-agent
     eval "$(ssh-agent -s)"
@@ -49,11 +49,11 @@ Deactivate licenses:
     Host *
       AddKeysToAgent yes
       UseKeychain yes
-      IdentityFile ~/.ssh/id_rsa
+      IdentityFile ~/.ssh/id_ed25519
     EOF
 
     # Add private key to ssh-agent (macos 12.0 Monterey) 
-    ssh-add --apple-use-keychain ~/.ssh/id_rsa
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
     # Copy public key and add to github.com > Settings > SSH and GPG keys
     pbcopy < ~/.ssh/id_rsa.pub
@@ -85,10 +85,10 @@ ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Then pass in the Brewfile location...
-brew bundle --file ~/.dotfiles/Brewfile
+brew bundle --file ~/.dotfiles/Brewfile --describe
 
 # ...or move to the directory first.
-cd ~/.dotfiles && brew bundle
+cd ~/.dotfiles && brew bundle --describe
 ```
 
 
