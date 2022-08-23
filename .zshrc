@@ -6,6 +6,7 @@
 # https://scriptingosx.com/2019/06/moving-to-zsh-part-3-shell-options/
 # shell history location saved across shell exits
 # use ZDOTDIR when it is or HOME otherwise
+
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 # make zsh add a bit more data (timestamp in unix epoch time and elapsed time of the command) 
 setopt EXTENDED_HISTORY
