@@ -41,8 +41,8 @@ setopt CORRECT_ALL
 export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix)/sbin:$PATH"
 export PATH="$HOME/Documents/Unix/dsutils:$PATH"
-
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -151,7 +151,8 @@ fi
 #
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias gbash="$(brew --prefix)/bin/bash"
+# alias gbash="$(brew --prefix)/bin/bash"
+alias ppath="/usr/libexec/path_helper | sed 's/:/\n/g'"
 # alias awk="gawk"
 alias zshupdate="source ~/.dotfiles/.zshrc"
 alias zshconfig="code ~/.dotfiles/.zshrc"
@@ -175,26 +176,43 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 
 # https://www.mediaglasses.blog/2021/10/30/managing-python-on-macos-monterey/
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   export PYENV_ROOT="$HOME/.pyenv"
-#   export PATH="$PYENV_ROOT/bin:$PATH"
-#   eval "$(pyenv init --path)"
-#   eval "$(pyenv init -)"
-# fi
+if command -v pyenv 1>/dev/null 2>&1; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+fi
 
+# miniconda installed with `pyenv install miniconda-latest`
 # run conda init zsh
-# Linking Binary 'conda' to '/opt/homebrew/bin/conda'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$($(brew --prefix)/Caskroom/miniconda/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/tod/.pyenv/versions/miniconda3-latest/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "$(brew --prefix)/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-        . "$(brew --prefix)/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+    if [ -f "/Users/tod/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh" ]; then
+        . "/Users/tod/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh"
     else
-        export PATH="$(brew --prefix)/Caskroom/miniconda/base/bin:$PATH"
+        export PATH="/Users/tod/.pyenv/versions/miniconda3-latest/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# PROMPT='
+# %1~ %L %# '
+# RPROMPT='%*'
+
+# function mkcd(){
+#     mkdir -p "$@" && cd "$_"
+# }
+
+# start and stop postgresql (legacy method?)
+# ln -sfv $(brew --prefix)/opt/postgresql/*.plist ~/Library/LaunchAgents
+alias pg_start="launchctl load ~/Library/LaunchAgents 2> /dev/null"
+alias pg_stop="launchctl unload ~/Library/LaunchAgents 2> /dev/null"
+# or use `brew services start postgresql` instead
+
+# syntax highlighting for manpages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
