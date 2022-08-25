@@ -5,16 +5,18 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "romkatv/powerlevel10k"
 tap "sschlesier/csvutils"
+# Library for command-line editing
+brew "readline"
+# General-purpose data compression with high compression ratio
+brew "xz"
+# Integrated shell for working with the AWS CLI
+brew "aws-shell"
 # Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# General-purpose data compression with high compression ratio
-brew "xz"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
-# Library for command-line editing
-brew "readline"
 # Suite of command-line tools for converting to and working with CSV
 brew "csvkit"
 # Modern replacement for 'ls'
@@ -23,6 +25,8 @@ brew "exa"
 brew "fzf"
 # GNU awk utility
 brew "gawk"
+# This library is for the GeoIP Legacy format (dat)
+brew "geoip"
 # GitHub command-line tool
 brew "gh"
 # GNU implementation of the famous stream editor
@@ -31,6 +35,8 @@ brew "gnu-sed"
 brew "grep"
 # Make JSON greppable
 brew "gron"
+# Improved top (interactive process viewer)
+brew "htop"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Utility for directing compilation
@@ -55,6 +61,8 @@ brew "pyenv"
 brew "r"
 # GNU's Restricted User SHell
 brew "rush"
+# Command-line interface for https://speedtest.net bandwidth tests
+brew "speedtest-cli"
 # Soak up standard input and write to a file
 brew "sponge"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
@@ -83,6 +91,7 @@ brew "zsh-syntax-highlighting"
 cask "alfred"
 # App to build and share containerized applications and microservices
 cask "docker"
+cask "font-fira-code"
 cask "font-hack-nerd-font"
 # Web browser
 cask "google-chrome"
