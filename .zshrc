@@ -187,14 +187,14 @@ fi
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/tod/.pyenv/versions/miniconda3-latest/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$($HOME/.pyenv/versions/miniconda3-latest/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/tod/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh" ]; then
-        . "/Users/tod/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh"
+    if [ -f "$HOME/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh" ]; then
+        . "$HOME/.pyenv/versions/miniconda3-latest/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/tod/.pyenv/versions/miniconda3-latest/bin:$PATH"
+        export PATH="$HOME/.pyenv/versions/miniconda3-latest/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -216,3 +216,9 @@ alias pg_stop="launchctl unload ~/Library/LaunchAgents 2> /dev/null"
 
 # syntax highlighting for manpages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+conda deactivate
+conda activate my_conda_env
+
+py="$(which python)"
+alias python=$py
