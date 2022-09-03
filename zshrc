@@ -35,9 +35,8 @@ setopt CORRECT_ALL
 # ssh-add --apple-use-keychain ~/.ssh/id_rsa
 
 
-# export iMacG="/Volumes/GoogleDrive/My Drive/"
-export MBPG="/Volumes/GoogleDrive/Other computers/My iMac/"
-# $(brew --prefix) is /opt/homebrew/
+
+export G="/Volumes/GoogleDrive/Other computers/My iMac/"
 
 export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
