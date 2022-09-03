@@ -34,10 +34,6 @@ setopt CORRECT_ALL
 # authenticate to github from imac
 # ssh-add --apple-use-keychain ~/.ssh/id_rsa
 
-
-
-export G="/Volumes/GoogleDrive/Other computers/My iMac/"
-
 export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
@@ -222,3 +218,7 @@ conda activate my_conda_env
 
 py="$(which python)"
 alias python=$py
+
+if [[ $(HOSTNAME) == "MBP.local" ]]; then
+  export G="/Volumes/GoogleDrive/Other computers/My iMac/"
+fi
