@@ -228,5 +228,6 @@ fi
 HOMEBREW_NO_ENV_HINTS=1
 
 function sync_MBP(){
+  export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
   rsync -rlAXtgoDv --fake-super /Volumes/* ~/Documents
 }
