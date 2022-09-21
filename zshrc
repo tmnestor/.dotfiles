@@ -228,7 +228,5 @@ fi
 HOMEBREW_NO_ENV_HINTS=1
 
 function sync_MBP(){
-  # source = $1
-  # destination = $2
-  rsync -rlAXtgoDv --fake-super $1/* $2
+  rsync -rlAXtgoDv --fake-super /Volumes/* ~/Documents
 }
