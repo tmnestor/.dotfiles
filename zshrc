@@ -183,14 +183,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/tod/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/usr/local/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/tod/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/tod/miniforge3/etc/profile.d/conda.sh"
+    if [ -f "/usr/local/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/tod/miniforge3/bin:$PATH"
+        export PATH="/usr/local/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -214,13 +214,21 @@ alias pg_stop="launchctl unload ~/Library/LaunchAgents 2> /dev/null"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # conda deactivate
-# conda activate my_conda_env
+
+conda config --set auto_activate_base true
+# conda activate torchdev
 
 # py="$(which python)"
 # alias python=$py
 
-conda config --set auto_activate_base false
-
 if [[ $(HOSTNAME) == "MBP.local" ]]; then
   export G="/Volumes/GoogleDrive/Other computers/My iMac/"
 fi
+
+HOMEBREW_NO_ENV_HINTS=1
+
+function sync_MBP(){
+  # source = $1
+  # destination = $2
+  rsync -rlAXtgoDv --fake-super $1/* $2
+}
