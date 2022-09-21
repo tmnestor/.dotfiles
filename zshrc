@@ -223,11 +223,11 @@ conda config --set auto_activate_base true
 
 if [[ $(HOSTNAME) == "MBP.local" ]]; then
   export G="/Volumes/GoogleDrive/Other computers/My iMac/"
+  function sync_MBP(){
+    export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
+    rsync -rlAXtgoDv --fake-super $G* ~/Documents
+  }
 fi
 
 HOMEBREW_NO_ENV_HINTS=1
 
-function sync_MBP(){
-  export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
-  rsync -rlAXtgoDv --fake-super /Volumes/* ~/Documents
-}
