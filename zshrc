@@ -226,11 +226,15 @@ if [[ $(HOSTNAME) == "MBP.local" ]]; then
   export G="/Users/tod/Library/CloudStorage/GoogleDrive-tod.m.nestor@gmail.com/Other computers/My iMac/"
   function sync_MBP(){
     export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
-    rsync -rlAXtgoDv --fake-super --exclude .Rproj.user $G* ~/Documents
+    rsync -rlAXtgoDv --fake-super \
+    --exclude .Rproj.user \
+    $G* ~/Documents
   }
   function sync_G(){
     export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
-    rsync -rlAXtgoDv --fake-super --exclude .Rproj.user  ~/Documents/* $G
+    rsync -rlAXtgoDv --fake-super \
+    --exclude .Rproj.user  \
+    ~/Documents/* $G
   }
 fi
 
