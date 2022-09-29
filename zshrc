@@ -183,14 +183,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/usr/local/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="/usr/local/Caskroom/miniforge/base/bin:$PATH"
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -222,10 +222,15 @@ conda config --set auto_activate_base true
 # alias python=$py
 
 if [[ $(HOSTNAME) == "MBP.local" ]]; then
-  export G="/Volumes/GoogleDrive/Other computers/My iMac/"
+  # export G="/Volumes/GoogleDrive/Other computers/My iMac/"
+  export G="/Users/tod/Library/CloudStorage/GoogleDrive-tod.m.nestor@gmail.com/Other computers/My iMac/"
   function sync_MBP(){
     export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
-    rsync -rlAXtgoDv --fake-super $G* ~/Documents
+    rsync -rlAXtgoDv --fake-super --exclude .Rproj.user $G* ~/Documents
+  }
+  function sync_G(){
+    export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
+    rsync -rlAXtgoDv --fake-super --exclude .Rproj.user  ~/Documents/* $G
   }
 fi
 
