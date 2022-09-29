@@ -227,13 +227,13 @@ if [[ $(HOSTNAME) == "MBP.local" ]]; then
   function sync_MBP(){
     export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
     rsync -rlAXtgoDv --fake-super \
-    --exclude={'.Rproj.user', '*.pyc'}  \
+    --exclude={'.Rproj.user', '*.pyc', '.DS_Store'} \
     $G* ~/Documents
   }
   function sync_G(){
     export SSH_AUTH_SOCK=$( ls /private/tmp/com.apple.launchd.*/Listeners )
     rsync -rlAXtgoDv --fake-super \
-    --exclude={'.Rproj.user', '*.pyc'}  \
+    --exclude={'.Rproj.user', '*.pyc', '.DS_Store'} \
     ~/Documents/* $G
   }
 fi
