@@ -41,3 +41,6 @@ vignettes/*.pdf
 
 # zshrc
 # .zshrc
+
+# brew lock json
+Brewfile.lock.json
