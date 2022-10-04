@@ -57,7 +57,7 @@ brew "postgresql@14"
 brew "pup"
 # Python version management
 brew "pyenv"
-# Software environment for statistical computing
+# installed the CRAN version so dylibs are included
 # brew "r"
 # GNU's Restricted User SHell
 brew "rush"
