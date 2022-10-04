@@ -212,6 +212,7 @@ alias pg_stop="launchctl unload ~/Library/LaunchAgents 2> /dev/null"
 
 # syntax highlighting for manpages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export HOMEBREW_CASK_OPTS="--no-quarantine"
 
 # conda deactivate
 
