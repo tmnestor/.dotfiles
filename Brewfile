@@ -52,13 +52,13 @@ brew "osxutils"
 # Shell command parallelization utility
 brew "parallel"
 # Object-relational database system
-brew "postgresql"
+brew "postgresql@14"
 # Parse HTML at the command-line
 brew "pup"
 # Python version management
 brew "pyenv"
 # Software environment for statistical computing
-brew "r"
+# brew "r"
 # GNU's Restricted User SHell
 brew "rush"
 # Command-line interface for https://speedtest.net bandwidth tests
