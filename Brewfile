@@ -5,6 +5,7 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "romkatv/powerlevel10k"
 tap "sschlesier/csvutils"
+tap "surrealdb/tap"
 # Library for command-line editing
 brew "readline"
 # General-purpose data compression with high compression ratio
@@ -19,6 +20,8 @@ brew "bat"
 brew "coreutils"
 # Suite of command-line tools for converting to and working with CSV
 brew "csvkit"
+# GNU Emacs text editor
+brew "emacs"
 # Modern replacement for 'ls'
 brew "exa"
 # Command-line fuzzy finder written in Go
@@ -37,6 +40,8 @@ brew "grep"
 brew "gron"
 # Improved top (interactive process viewer)
 brew "htop"
+# User-friendly cURL replacement (command-line HTTP client)
+brew "httpie"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Utility for directing compilation
@@ -55,10 +60,8 @@ brew "parallel"
 brew "postgresql@14"
 # Parse HTML at the command-line
 brew "pup"
-# Python version management
-brew "pyenv"
-# installed the CRAN version so dylibs are included
-# brew "r"
+# Utility that provides fast incremental file transfer
+brew "rsync"
 # GNU's Restricted User SHell
 brew "rush"
 # Command-line interface for https://speedtest.net bandwidth tests
@@ -67,6 +70,8 @@ brew "speedtest-cli"
 brew "sponge"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Version control system designed to be a better CVS
+brew "subversion"
 # Simplified and community-driven man pages
 brew "tldr"
 # Display directories as trees (with optional color/HTML output)
@@ -87,16 +92,24 @@ brew "zsh"
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# A scalable, distributed, collaborative, document-graph database
+brew "surrealdb/tap/surreal"
 # Application launcher and productivity software
 cask "alfred"
 # App to build and share containerized applications and microservices
 cask "docker"
 cask "font-fira-code"
+# Developer targeted fonts with a high number of glyphs
 cask "font-hack-nerd-font"
+cask "font-source-code-pro"
 # Web browser
 cask "google-chrome"
+# Client for the Google Drive storage service
+cask "google-drive"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Minimal installer for conda specific to conda-forge
+cask "miniforge"
 # Administration and development platform for PostgreSQL
 cask "pgadmin4"
 # Scientific and technical publishing system built on Pandoc
@@ -105,7 +118,11 @@ cask "quarto"
 cask "rectangle"
 # Data science software focusing on R and Python
 cask "rstudio"
+# Virtualizer for x86 hardware
+cask "virtualbox"
 # Open-source code editor
 cask "visual-studio-code"
 # Remote desktop application focusing on security
 cask "vnc-viewer"
+# Open-source version of the X.Org X Window System
+cask "xquartz"
