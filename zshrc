@@ -39,6 +39,8 @@ export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/sbin:$PATH"
 export PATH="$HOME/Documents/Unix/dsutils:$PATH"
+export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
+export FLAGS_GETOPT_CMD="$(brew --prefix gnu-getopt)/bin/getopt"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
