@@ -34,12 +34,15 @@ setopt CORRECT_ALL
 # authenticate to github from imac
 # ssh-add --apple-use-keychain ~/.ssh/id_rsa
 
-export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
-export PATH="$(brew --prefix)/sbin:$PATH"
+# Save Homebrew’s installed location.
+BREW_PREFIX=$(brew --prefix)
+
+export PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="${BREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
+export PATH="${BREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="${BREW_PREFIX}/sbin:$PATH"
 export PATH="$HOME/Documents/Unix/dsutils:$PATH"
-export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
+export PATH="${BREW_PREFIX}/opt/gnu-getopt/bin:$PATH"
 export FLAGS_GETOPT_CMD="$(brew --prefix gnu-getopt)/bin/getopt"
 
 # If you come from bash you might have to change your $PATH.
@@ -123,8 +126,8 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-# source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source ${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -149,7 +152,7 @@ fi
 #
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-# alias gbash="$(brew --prefix)/bin/bash"
+# alias gbash="${BREW_PREFIX}/bin/bash"
 alias ppath="/usr/libexec/path_helper | sed 's/:/\n/g'"
 # alias awk="gawk"
 alias zshupdate="source ~/.dotfiles/.zshrc"
@@ -185,14 +188,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$($(brew --prefix)/Caskroom/miniforge/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$(${BREW_PREFIX}/Caskroom/miniforge/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "$(brew --prefix)/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "$(brew --prefix)/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    if [ -f "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="$(brew --prefix)/Caskroom/miniforge/base/bin:$PATH"
+        export PATH="${BREW_PREFIX}/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -207,7 +210,7 @@ unset __conda_setup
 # }
 
 # start and stop postgresql (legacy method?)
-# ln -sfv $(brew --prefix)/opt/postgresql/*.plist ~/Library/LaunchAgents
+# ln -sfv ${BREW_PREFIX}/opt/postgresql/*.plist ~/Library/LaunchAgents
 alias pg_start="launchctl load ~/Library/LaunchAgents 2> /dev/null"
 alias pg_stop="launchctl unload ~/Library/LaunchAgents 2> /dev/null"
 # or use `brew services start postgresql` instead
