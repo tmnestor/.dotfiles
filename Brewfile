@@ -32,6 +32,8 @@ brew "gawk"
 brew "geoip"
 # GitHub command-line tool
 brew "gh"
+# Command-line option parsing utility
+brew "gnu-getopt"
 # GNU implementation of the famous stream editor
 brew "gnu-sed"
 # GNU grep, egrep and fgrep
