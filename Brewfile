@@ -6,20 +6,20 @@ tap "homebrew/services"
 tap "romkatv/powerlevel10k"
 tap "sschlesier/csvutils"
 tap "surrealdb/tap"
-# Library for command-line editing
-brew "readline"
 # General-purpose data compression with high compression ratio
 brew "xz"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.10"
 # Integrated shell for working with the AWS CLI
 brew "aws-shell"
 # Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# GNU File, Shell, and Text utilities
-brew "coreutils"
 # Suite of command-line tools for converting to and working with CSV
 brew "csvkit"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
 # GNU Emacs text editor
 brew "emacs"
 # Modern replacement for 'ls'
@@ -56,6 +56,8 @@ brew "openssl@3"
 brew "osxutils"
 # Shell command parallelization utility
 brew "parallel"
+# Parallel gzip
+brew "pigz"
 # Object-relational database system
 brew "postgresql@14"
 # Parse HTML at the command-line
@@ -64,6 +66,8 @@ brew "pup"
 brew "rsync"
 # GNU's Restricted User SHell
 brew "rush"
+# 7-Zip is a file archiver with a high compression ratio
+brew "sevenzip"
 # Command-line interface for https://speedtest.net bandwidth tests
 brew "speedtest-cli"
 # Soak up standard input and write to a file
