@@ -32,6 +32,10 @@ brew "gawk"
 brew "geoip"
 # GitHub command-line tool
 brew "gh"
+# Platform built on V8 to build network applications
+brew "node"
+# Interactive command-line tool for using emoji in commit messages
+brew "gitmoji"
 # Command-line option parsing utility
 brew "gnu-getopt"
 # GNU implementation of the famous stream editor
@@ -50,8 +54,6 @@ brew "jq"
 brew "make"
 # Interpreter for the AWK Programming Language
 brew "mawk"
-# Platform built on V8 to build network applications
-brew "node"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
 # Collection of macOS command-line utilities
