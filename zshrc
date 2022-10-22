@@ -250,9 +250,9 @@ fi
 
 HOMEBREW_NO_ENV_HINTS=1
 
-cat << EOF >> ~/.zprofile
-# Add Visual Studio Code (code)
-export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-EOF
+# cat << EOF >> ~/.zprofile
+# # Add Visual Studio Code (code)
+# export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# EOF
 
 
