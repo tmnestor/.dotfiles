@@ -263,3 +263,4 @@ HELPDIR=$(command brew --prefix)/share/zsh/help
 alias help=run-help
 
 
+alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
