@@ -256,4 +256,10 @@ HOMEBREW_NO_ENV_HINTS=1
 # export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 # EOF
 
+# get help on builtins (bash style)
+unalias run-help
+autoload run-help
+HELPDIR=$(command brew --prefix)/share/zsh/help
+alias help=run-help
+
 
