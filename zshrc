@@ -41,6 +41,7 @@ export PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="${BREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
 export PATH="${BREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="${BREW_PREFIX}/sbin:$PATH"
+export PATH="${BREW_PREFIX}/opt/make/libexec/gnubin:$PATH"
 # export PATH="$HOME/Documents/Unix/dsutils:$PATH"
 export PATH="${BREW_PREFIX}/opt/gnu-getopt/bin:$PATH"
 export PATH="/Users/tod/bin:$PATH"
@@ -264,3 +265,5 @@ alias help=run-help
 
 
 alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
