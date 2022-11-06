@@ -267,3 +267,6 @@ alias help=run-help
 alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# speedup matrix calculations in R on MBP
+# ln -sf /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.vecLib.dylib /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
