@@ -248,6 +248,12 @@ if [[ $(HOSTNAME) == "MBP.local" ]]; then
     --exclude '.DS_Store'\
     /Users/tod/Documents/* $G
   }
+  function nosleep(){
+    sudo pmset -a disablesleep 1
+  }
+  function yessleep(){
+    sudo pmset -a disablesleep 0
+  }
 fi
 
 HOMEBREW_NO_ENV_HINTS=1
@@ -270,3 +276,5 @@ alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
 
 # speedup matrix calculations in R on MBP
 # ln -sf /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.vecLib.dylib /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
+
+
