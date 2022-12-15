@@ -190,14 +190,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(${BREW_PREFIX}/Caskroom/miniforge/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="${BREW_PREFIX}/Caskroom/miniforge/base/bin:$PATH"
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -254,6 +254,7 @@ if [[ $(HOSTNAME) == "MBP.local" ]]; then
   function yessleep(){
     sudo pmset -a disablesleep 0
   }
+PYTORCH_ENABLE_MPS_FALLBACK=1
 fi
 
 HOMEBREW_NO_ENV_HINTS=1
