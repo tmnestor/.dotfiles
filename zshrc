@@ -278,4 +278,4 @@ alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
 # speedup matrix calculations in R on MBP
 # ln -sf /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.vecLib.dylib /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
 alias r=radian
-
+export R_HOME=/Library/Frameworks/R.framework/Resources
