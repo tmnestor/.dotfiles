@@ -48,7 +48,7 @@ export PATH="/Users/tod/bin:$PATH"
 export FLAGS_GETOPT_CMD="$(brew --prefix gnu-getopt)/bin/getopt"
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$(command brew --prefix)/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -132,7 +132,7 @@ source $ZSH/oh-my-zsh.sh
 source ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="$(command brew --prefix)/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_AU.UTF-8
@@ -190,14 +190,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # run conda init zsh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$(${BREW_PREFIX}/Caskroom/miniforge/base/bin/conda 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+    if [ -f "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "${BREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
+        export PATH="${BREW_PREFIX}/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -278,4 +278,4 @@ alias sys_info="system_profiler SPSoftwareDataType SPHardwareDataType"
 # speedup matrix calculations in R on MBP
 # ln -sf /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.vecLib.dylib /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib
 alias r=radian
-export R_HOME=/usr/local/bin/R
+export R_HOME=${BREW_PREFIX}/bin/R
