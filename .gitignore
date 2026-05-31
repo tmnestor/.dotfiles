@@ -1,46 +1,47 @@
+# =============================================================================
+# Backups & editor scratch
+# =============================================================================
+*.bak
+*.bak.*
+*.pre-dotfiles.*
+*.orig
+*.tmp
+*~
+*.swp
+*.swo
+
+# =============================================================================
+# macOS
+# =============================================================================
 .DS_Store
-# History files
-.Rhistory
-.Rapp.history
+.AppleDouble
+.LSOverride
+._*
 
-# Session Data files
-.RData
+# =============================================================================
+# Editors / IDEs
+# =============================================================================
+.vscode/
+.idea/
 
-# User-specific files
-.Ruserdata
+# =============================================================================
+# Python / tooling noise (in case anything is run from the repo dir)
+# =============================================================================
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.mypy_cache/
 
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# zshrc
-# .zshrc
-
-# brew lock json
-Brewfile.lock.json
+# =============================================================================
+# Secrets — never commit these to a public dotfiles repo
+# =============================================================================
+*.pem
+*.key
+id_rsa
+id_ed25519
+*_rsa
+*_ed25519
+.git-credentials
+.netrc
+.env
+.env.*
