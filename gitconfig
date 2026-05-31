@@ -3,20 +3,63 @@
 	email = 101078845+tmnestor@users.noreply.github.com
 [init]
 	defaultBranch = main
+	templatedir = ~/.git-templates
 [fetch]
 	prune = true
-[diff]
-	colorMoved = zebra
 [pull]
 	rebase = true
 [core]
 	excludesfile = /Users/tod/.gitignore_global
 	editor = code --wait
+	quotePath = false
 [diff]
-    tool = default-difftool
+	tool = default-difftool
+	colorMoved = zebra
 [difftool "default-difftool"]
-    cmd = code --wait --diff $LOCAL $REMOTE
+	cmd = code --wait --diff $LOCAL $REMOTE
 [web]
 	browser = google-chrome
 [push]
 	autoSetupRemote = true
+[color]
+	ui = true
+	branch = auto
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	branch = magenta normal bold
+	remoteBranch = magenta normal bold
+	changed = yellow normal bold
+	untracked = red normal bold
+	updated = green normal bold
+[color "branch"]
+	current = magenta normal ul bold
+	remote = yellow normal bold
+[alias]
+	coa = !git add -A && git commit -m
+	ac = "!f() { git add -A && git commit -m \"$@\"; }; f"
+	acp = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
+	actp = "!f() { git add -A && git commit -m \"$1\" && git tag -a \"$2\" -m \"$1\" && git push; }; f"
+[branch]
+	autosetuprebase = always
+[credential "https://huggingface.co"]
+	username = tod-m-nestor
+	helper = store
+[http]
+	version = HTTP/1.1
+	postBuffer = 524288000
+[log]
+	date = format:%Y-%m-%d %H:%M:%S
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
