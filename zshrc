@@ -340,11 +340,9 @@ profile_startup() {
       gh repo create $(basename "$PWD") --public --source=. --remote=origin --push
   }
 
-# authenticate to github from MBP
-load-keys() {
-    /usr/bin/ssh-add --apple-use-keychain ~/.ssh/MBP_gh
-    /usr/bin/ssh-add --apple-use-keychain ~/.ssh/MBP_gl
-}
+# GitHub SSH auth is handled automatically by ~/.ssh/config
+# (IdentityFile ~/.ssh/github_no_passphrase + AddKeysToAgent + UseKeychain),
+# so no manual `ssh-add` / load-keys function is needed.
 
 # =============================================================================
 # Lazy Loading for Performance
