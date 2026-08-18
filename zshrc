@@ -80,6 +80,9 @@ path=(
 
     # Appended paths
     "/Users/tod/.lmstudio/bin"
+
+    # Wolfram CLI (wolframscript, wolfram); the app does not symlink these into a PATH dir
+    "/Applications/Wolfram.app/Contents/MacOS"
 )
 export PATH
 # =============================================================================
@@ -92,6 +95,13 @@ export MODELDIR=$HOME/models
 export CONDA_ENVS=$HOME/conda_envs
 export LLM_MODELS_PATH="$HOME/PretrainedLLM"
 export HF_HOME="$HOME/PretrainedLLM" # Yes I know it is repeated!
+
+# Document parsers — resolve models from the local store, not the HF cache.
+# MinerU reads models-dir.{vlm,pipeline} from this JSON; keeping it in the
+# store avoids creating a ~/mineru.json. Docling requires its artifacts dir
+# to contain <org>--<name> subdirs, so it gets its own subtree.
+export MINERU_TOOLS_CONFIG_JSON="$LLM_MODELS_PATH/mineru.json"
+export DOCLING_ARTIFACTS_PATH="$LLM_MODELS_PATH/docling-artifacts"
 
 # System Configuration
 export LANG=en_AU.UTF-8
