@@ -130,16 +130,30 @@ alias histg='history | grep'
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 alias rmpycache='find . -type d -name "__pycache__" -exec rm -r {} +'
 
-# Modern CLI tools (with fallbacks to traditional tools)
-alias ls='exa --color=auto --group-directories-first 2>/dev/null || ls --color=auto'
-alias ll='exa -la --icons --git 2>/dev/null || ls -alF'
-alias la='exa -a 2>/dev/null || ls -A'
-alias l='exa -1 2>/dev/null || ls -CF'
-alias cat='bat --style=plain 2>/dev/null || cat'
-alias find='fd 2>/dev/null || find'
-alias grep='rg 2>/dev/null || grep --color=auto'
-alias top='htop 2>/dev/null || top'
-alias vim='nvim 2>/dev/null || vim'
+# Modern CLI tools, aliased only when installed. Never write "tool || fallback": an alias is text
+# substitution, so the arguments land on the fallback and the tool runs with none (bat then waits
+# on the keyboard, exa lists the current directory). find and grep stay themselves: fd and rg take
+# a different syntax, so call them by name.
+if command -v eza >/dev/null 2>&1; then _lister=eza
+elif command -v exa >/dev/null 2>&1; then _lister=exa
+else _lister=
+fi
+if [ -n "$_lister" ]; then
+    alias ls="$_lister --color=auto --group-directories-first"
+    alias ll="$_lister -la --icons --git"
+    alias la="$_lister -a"
+    alias l="$_lister -1"
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -alF'
+    alias la='ls -A'
+    alias l='ls -CF'
+fi
+unset _lister
+command -v bat >/dev/null 2>&1 && alias cat='bat --style=plain --paging=never'
+alias grep='grep --color=auto'
+command -v htop >/dev/null 2>&1 && alias top='htop'
+command -v nvim >/dev/null 2>&1 && alias vim='nvim'
 alias cls='clear'
 alias reload='source ~/.bashrc'
 alias bashconfig='${EDITOR} ~/.dotfiles/bashrc'
