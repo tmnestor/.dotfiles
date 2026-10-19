@@ -81,7 +81,7 @@ path=(
     # Appended paths
     "/Users/tod/.lmstudio/bin"
 
-    # Wolfram CLI (wolframscript, wolfram); the app does not symlink these into a PATH dir
+    # Wolfram CLI (wolfram, WolframKernel); wolframscript is also symlinked in /usr/local/bin by WolframScript.app
     "/Applications/Wolfram.app/Contents/MacOS"
 )
 export PATH
