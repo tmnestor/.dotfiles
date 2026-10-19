@@ -478,6 +478,3 @@ export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
 if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
     source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
-
-# bat (behind the cat alias) prints straight to the terminal instead of paging through less
-export BAT_PAGER=""
