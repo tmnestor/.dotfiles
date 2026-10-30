@@ -75,6 +75,7 @@ ln -s ~/.dotfiles/macos ~/.macos
 ln -s ~/.dotfiles/zshrc ~/.zshrc
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
 mkdir -p ~/.config/zsh && ln -s ~/.dotfiles/zsh/functions ~/.config/zsh/functions
+ln -s ~/.dotfiles/zsh/aliases ~/.config/zsh/aliases
 ```
 
 
