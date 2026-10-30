@@ -14,8 +14,6 @@ zmodload zsh/complist
 autoload -Uz compinit
 () { (( $# )) && compinit || compinit -C } ${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24)
 
-# Suggested minor simplification for BREW_PREFIX (Optional)
-# This avoids the nested if/else and uses `command -v` which is standard
 if [[ -z "$BREW_PREFIX" ]]; then
     if [[ -d "/opt/homebrew" ]]; then
         export BREW_PREFIX="/opt/homebrew"
@@ -97,7 +95,7 @@ export CONDA_ENVS=$HOME/conda_envs
 export LLM_MODELS_PATH="$HOME/PretrainedLLM"
 export HF_HOME="$HOME/PretrainedLLM" # Yes I know it is repeated!
 
-# Document parsers — resolve models from the local store, not the HF cache.
+# Document parsers: resolve models from the local store, not the HF cache.
 # MinerU reads models-dir.{vlm,pipeline} from this JSON; keeping it in the
 # store avoids creating a ~/mineru.json. Docling requires its artifacts dir
 # to contain <org>--<name> subdirs, so it gets its own subtree.
@@ -146,7 +144,7 @@ bindkey "^I" expand-or-complete-with-dots
 # =============================================================================
 
 # EXTENDED_HISTORY (below) records an epoch timestamp per command; `fc -l -t`
-# renders it on display. (HISTIMEFORMAT is a bash variable; zsh ignores it —
+# renders it on display. (HISTIMEFORMAT is a bash variable and zsh ignores it;
 # the `history`/`h` aliases further down are zsh's equivalent.)
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=1000000
@@ -213,10 +211,6 @@ source ~/.config/zsh/functions/pretty-aliases.zsh
 # Load the Bedrock instance helper (bedrock-ip)
 source ~/.config/zsh/functions/bedrock.zsh
 
-# Note: Git, UV, Ruff, and Homebrew aliases are now lazy-loaded
-# They will be loaded automatically when you first use git, uv, ruff, or brew
-# Or you can manually load them with: load-git, load-dev, or load-all
-
 # =============================================================================
 # Plugin Replacements (Pure ZSH)
 # =============================================================================
@@ -258,16 +252,17 @@ yessleep() {
     sudo pmset -a disablesleep 0
 }
 
-# Git quick commit (renamed to avoid conflict with gc alias)
+# Git quick commit (renamed to avoid conflict with gc alias); pre-commit hooks still run
 gcq() {
-    git commit --no-verify -m "$*"
+    git commit -m "$*"
 }
 
 
 
+# Search the whole history with fzf and run the choice (`history` alone lists only the last 16)
 fh() {
     local selected
-    selected=$(history | fzf --tac --no-sort --height=40% --reverse | sed 's/^[ ]*[0-9]*[ ]*[0-9-]*[ ]*[0-9:]*[ ]*//')
+    selected=$(fc -l -t "$HIST_STAMP_FMT" 1 | fzf --tac --no-sort --height=40% --reverse | sed 's/^[ ]*[0-9]*[ ]*[0-9-]*[ ]*[0-9:]*[ ]*//')
     if [[ -n "$selected" ]]; then
         eval "$selected"
     fi
@@ -323,21 +318,24 @@ fkill() {
     fi
 }
 
-# Quick conda environment activation
+# Quick conda environment activation: `ca ENV`, or pick one with fzf. Activation has to run in
+# this shell, so the choice is captured first (piping it into `xargs conda activate` ran conda
+# in a child process, where activating changes nothing).
 ca() {
-    if [[ -n "$1" ]]; then
-        conda activate "$1"
-    else
-        conda info --envs | fzf | awk '{print $1}' | xargs conda activate
+    local env="$1"
+    if [[ -z "$env" ]]; then
+        env=$(conda env list | command grep -v '^#' | fzf | awk '{print $1}')
+        [[ -z "$env" ]] && return 1
     fi
+    conda activate "$env"
 }
 
-# Performance measurement function
+# Performance measurement function. zsh's `time` reports on stderr, in a line ending "total".
 startup_time() {
     echo "Measuring ZSH startup time (10 iterations):"
     for i in {1..10}; do
         time zsh -i -c exit
-    done | grep real
+    done 2>&1 | command grep total
 }
 
 # Quick profiling function
@@ -346,13 +344,23 @@ profile_startup() {
     zsh -i -c "zmodload zsh/zprof; source ~/.zshrc; zprof | head -20"
 }
 
-# Create a github repo from the current directory
-  create_github_repo() {
-      git init
-      git add .
-      git commit -m "🎉 Initial commit"
-      gh repo create $(basename "$PWD") --public --source=. --remote=origin --push
-  }
+# Create a GitHub repo from the current directory. It lists what would be committed and asks
+# before committing; the repo is private unless called as `create_github_repo --public`.
+create_github_repo() {
+    local visibility="--private"
+    [[ "$1" == "--public" ]] && visibility="--public"
+    git init
+    git add .
+    git status --short
+    if ! read -q "?Commit these files and create a ${visibility#--} repo? [y/N] "; then
+        echo
+        echo "Stopped: the files are staged but not committed (git reset to unstage)."
+        return 1
+    fi
+    echo
+    git commit -m "🎉 Initial commit" &&
+        gh repo create "$(basename "$PWD")" "$visibility" --source=. --remote=origin --push
+}
 
 # GitHub SSH auth is handled automatically by ~/.ssh/config
 # (IdentityFile ~/.ssh/github_no_passphrase + AddKeysToAgent + UseKeychain),
@@ -375,11 +383,11 @@ fuck() {
 # Lazy load FZF integration
 _load_fzf() {
     if command -v fzf >/dev/null 2>&1; then
+        # fzf's own Ctrl-R widget searches the history; fh is a plain function, not a widget,
+        # so it cannot be bound to a key
         source <(fzf --zsh) 2>/dev/null || {
             [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
         }
-        # Bind custom history search to Ctrl-R after FZF is loaded
-        bindkey '^R' fh
     fi
 }
 
@@ -403,18 +411,8 @@ fzf() {
 # My Custom Prompt Configuration (can be same in work computer)
 # =============================================================================
 
-# Only configure conda prompt if conda is available (lazy)
-_setup_conda_prompt() {
-    if command -v conda >/dev/null 2>&1; then
-        conda config --set changeps1 false
-    fi
-}
-
-# Setup conda prompt on first conda use
-{
-    sleep 2 && _setup_conda_prompt
-} &!
-
+# conda's own prompt prefix is off (changeps1: false, set once in ~/.condarc); the prompt
+# below shows the environment itself
 # Load and configure the vcs_info module for fast git status
 autoload -Uz vcs_info
 zstyle ':vcs_info:git:*' formats       ' [%b%u%c]'
@@ -463,7 +461,7 @@ setopt prompt_subst
 # Define the prompt using the variables set in our precmd function
 PROMPT='${COLOR_CON}${CONDA_ENV}${COLOR_USR}%n ${COLOR_DIR}%1~ ${COLOR_GIT}${vcs_info_msg_0_}${COLOR_DEF}$ '
 
-# LuaLaTeX compilation helper — compiles in-place with TEXINPUTS set to source dir
+# LuaLaTeX compilation helper: compiles in place with TEXINPUTS set to source dir
 ltx() {
     local texfile="${1:?Usage: ltx <file.tex>}"
     local texdir="${texfile:h}"
@@ -473,11 +471,10 @@ ltx() {
 }
 
 # (Claude custom commands path lives in the `path` array above.)
-export KMP_DUPLICATE_LIB_OK=TRUE
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
 
 # =============================================================================
-# Syntax Highlighting (MUST be sourced last — it wraps the ZLE widgets)
+# Syntax Highlighting (MUST be sourced last: it wraps the ZLE widgets)
 # =============================================================================
 if [ -f "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
     source "${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
