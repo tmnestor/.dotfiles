@@ -64,6 +64,7 @@ path=(
     "${BREW_PREFIX}/opt/grep/libexec/gnubin"
     "${BREW_PREFIX}/opt/coreutils/libexec/gnubin"
     "${BREW_PREFIX}/opt/make/libexec/gnubin"
+    "${BREW_PREFIX}/opt/findutils/libexec/gnubin"
     "${BREW_PREFIX}/opt/gnu-getopt/bin"
 
     # System paths
@@ -208,6 +209,9 @@ source ~/.config/zsh/aliases/lazy-loader.zsh
 
 # Load pretty alias printer
 source ~/.config/zsh/functions/pretty-aliases.zsh
+
+# Load the Bedrock instance helper (bedrock-ip)
+source ~/.config/zsh/functions/bedrock.zsh
 
 # Note: Git, UV, Ruff, and Homebrew aliases are now lazy-loaded
 # They will be loaded automatically when you first use git, uv, ruff, or brew
