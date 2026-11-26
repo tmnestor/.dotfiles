@@ -215,14 +215,14 @@ autoload -U colors && colors
 # =============================================================================
 
 # All alias groups load now. (They were once lazy-loaded on first use of git,
-# uv, ruff or brew; the wrapper functions that did it broke shell start-up.)
+# uv, ruff or brew; the wrapper functions that did it broke shell start-up,
+# and the helpers that tracked which group was loaded are gone with them.)
 # These must come before section 10: see the note at the top.
 source ~/.config/zsh/aliases/core.zsh           # safety, listing, Python, utilities
 source ~/.config/zsh/aliases/git.zsh            # git shortcuts
 source ~/.config/zsh/aliases/dev-tools.zsh      # uv, ruff, Homebrew, conda/mamba
-source ~/.config/zsh/aliases/lazy-loader.zsh    # load_aliases, alias-status
 
-source ~/.config/zsh/functions/pretty-aliases.zsh   # pretty-aliases (pa, paa)
+source ~/.config/zsh/functions/pretty-aliases.zsh   # pretty-aliases (pa)
 source ~/.config/zsh/functions/bedrock.zsh          # bedrock-ip
 
 # =============================================================================
