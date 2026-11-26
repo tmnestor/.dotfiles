@@ -14,7 +14,7 @@ I learned about dotfiles at [Udemy](https://www.udemy.com/course/dotfiles-from-s
 | `bash_profile` | `~/.bash_profile` | Login bash: it sources `bashrc` |
 | `gitconfig` | `~/.gitconfig` | Git identity, colours, aliases and credential helpers |
 | `Brewfile` | not linked | Every Homebrew formula and cask, VS Code extension and global npm package installed |
-| `macos` | `~/.macos`, optional | macOS defaults, taken from <https://mths.be/macos> in 2022. Not run or checked since: read it before running any of it |
+| `macos` | not linked | The macOS settings this Mac holds. `./macos --check` compares them with a Mac and changes nothing; `./macos --apply` writes them |
 
 The files are linked, not copied, so an edit in this folder is live in the next shell that starts, whether
 or not it has been committed.
@@ -40,11 +40,12 @@ because breaking it once cost a hung command or a silently wrong result.
 6. **A stand-in that loads a tool on first use removes itself first** (`conda`, `fzf`, `fuck`), so that a
    missing tool ends in "command not found" and not in a function calling itself.
 
-After any edit, both of these must hold before the change is committed:
+After any edit, these must hold before the change is committed:
 
 ```zsh
-zsh -i -c exit     # prints nothing (iTerm adds its own marks, which do not count)
+zsh -i -c exit               # prints nothing (iTerm adds its own marks, which do not count)
 bash -n ~/.dotfiles/bashrc
+~/.dotfiles/macos --check    # no setting differs, on the Mac the values were read from
 ```
 
 ## Keeping Homebrew and the Brewfile current
@@ -74,7 +75,7 @@ brew bundle dump --force --file ~/.dotfiles/Brewfile    # record the result, the
 
 1. `xcode-select --install` (the Command Line Tools are needed for Git and Homebrew).
 2. `git clone https://github.com/tmnestor/.dotfiles.git ~/.dotfiles`. Start with `https`; switch to `ssh`
-   at step 7.
+   at step 8.
 3. Install Homebrew:
 
    ```zsh
@@ -98,7 +99,15 @@ brew bundle dump --force --file ~/.dotfiles/Brewfile    # record the result, the
    ```
 
 6. Restart the terminal. `zsh -i -c exit` should print nothing.
-7. [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh), add it
+7. Apply the macOS settings (Finder, Dock, trackpad). The first command lists what would change and
+   changes nothing; neither needs `sudo`:
+
+   ```zsh
+   ~/.dotfiles/macos --check
+   ~/.dotfiles/macos --apply
+   ```
+
+8. [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh), add it
    to GitHub and switch the remote:
 
    ```zsh
