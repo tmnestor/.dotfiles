@@ -204,6 +204,8 @@ alias h="fc -l -t '${HIST_STAMP_FMT}' 1"
 # =============================================================================
 
 setopt AUTO_CD                  # type a directory name to cd into it
+setopt INTERACTIVE_COMMENTS     # a # starts a comment at the prompt too, so pasted
+                                # commands that carry comments run as written
 # setopt CORRECT
 # setopt CORRECT_ALL
 
@@ -257,10 +259,12 @@ fzf() {
     fzf "$@"
 }
 
-# thefuck: corrects the previous command; slow to initialise, so also lazy
+# thefuck: corrects the previous command; slow to initialise, so also lazy.
+# The stand-in removes itself first, so that without thefuck installed it
+# ends in "command not found" and not in a function calling itself.
 fuck() {
-    eval $(thefuck --alias)
-    fuck
+    unfunction fuck
+    eval "$(thefuck --alias)" && fuck "$@"
 }
 
 # =============================================================================
