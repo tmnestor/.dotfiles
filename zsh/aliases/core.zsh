@@ -1,15 +1,19 @@
 # =============================================================================
-# Core Aliases (Always Loaded)
+# Core Aliases
 # =============================================================================
 
 # Python aliases
 alias python='python3'
 alias pip='pip3'
 
-# Safety Aliases
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# Ask before deleting or overwriting, but only when a keyboard is attached to answer.
+# These are functions, not aliases, so that the question is decided when the command runs:
+# a tool that runs commands with no terminal gets the plain command. As aliases, such a
+# tool got a prompt that nobody could answer, and hung.
+unalias rm cp mv 2>/dev/null    # so that a reload replaces the aliases these once were
+function rm { if [[ -t 0 ]]; then command rm -i "$@"; else command rm "$@"; fi }
+function cp { if [[ -t 0 ]]; then command cp -i "$@"; else command cp "$@"; fi }
+function mv { if [[ -t 0 ]]; then command mv -i "$@"; else command mv "$@"; fi }
 
 # Navigation & Listing Aliases
 alias ..='cd ..'

@@ -1,5 +1,5 @@
 # =============================================================================
-# Development Tool Aliases (Lazy Loaded)
+# Development Tool Aliases
 # =============================================================================
 
 # UV (Python Package Manager) Aliases

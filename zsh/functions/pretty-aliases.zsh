@@ -1,17 +1,15 @@
 # =============================================================================
-# Pretty Alias Printer with Comments
+# pretty-aliases: list the aliases, each with the comment written above it
 # =============================================================================
+#   pretty-aliases           every alias, grouped by the file that defines it
+#   pretty-aliases <term>    only those whose name, command or comment matches
+#   pa                       short for pretty-aliases
 
-# Function to pretty-print aliases with their comments
 pretty-aliases() {
+    # --all is accepted and ignored: every group is loaded at start-up, so
+    # there is no longer a difference between loaded and available
+    [[ "$1" == "--all" ]] && shift
     local search_term="$1"
-    local show_all=false
-    
-    # Check if we should show all aliases or just loaded ones
-    if [[ "$1" == "--all" ]]; then
-        show_all=true
-        search_term="$2"
-    fi
     
     echo "📋 Available Aliases"
     echo "===================="
@@ -72,29 +70,10 @@ pretty-aliases() {
         done < "$file"
     }
     
-    # Parse core aliases (always loaded)
-    if [[ -f "$HOME/.config/zsh/aliases/core.zsh" ]]; then
-        _parse_alias_file "$HOME/.config/zsh/aliases/core.zsh" "Core Aliases (Always Loaded)"
-    fi
-    
-    # Parse other alias files
-    for file in "$HOME/.config/zsh/aliases"/*.zsh; do
-        [[ ! -f "$file" ]] && continue
-        local basename="${file:t:r}"
-        
-        # Skip core.zsh and lazy-loader.zsh as they're handled separately
-        [[ "$basename" == "core" || "$basename" == "lazy-loader" ]] && continue
-        
-        # Check if this group is loaded or if we should show all
-        if [[ "$show_all" == true || -n "${_LOADED_ALIAS_GROUPS[$basename]}" ]]; then
-            local status="✓ Loaded"
-        else
-            local status="○ Available (use: load-$basename)"
-        fi
-        
-        if [[ "$show_all" == true || -n "${_LOADED_ALIAS_GROUPS[$basename]}" ]]; then
-            _parse_alias_file "$file" "$basename ($status)"
-        fi
+    # One heading for each alias file, named after the file
+    local file
+    for file in "$HOME/.config/zsh/aliases"/*.zsh(N); do
+        _parse_alias_file "$file" "${file:t:r}"
     done
     
     # Show currently active aliases not in files
@@ -136,12 +115,9 @@ pretty-aliases() {
     done
     
     echo -e "\n💡 Usage:"
-    echo "  pretty-aliases              # Show loaded aliases"
-    echo "  pretty-aliases --all        # Show all available aliases"
+    echo "  pretty-aliases              # Show every alias"
     echo "  pretty-aliases <search>     # Search aliases"
-    echo "  pretty-aliases --all <search> # Search all aliases"
 }
 
 # Shorter alias for convenience
 alias pa='pretty-aliases'
-alias paa='pretty-aliases --all'

@@ -1,9 +1,9 @@
 #!/bin/bash
 # =============================================================================
-# ~/.bashrc — work (Linux) bash configuration
+# ~/.bashrc: bash configuration, for the Linux machines and for bash on the Mac
 # =============================================================================
 # Companion to the macOS `zshrc` in this repo. Self-contained: it does NOT
-# depend on ~/.config/zsh/* (those are zsh-only). Written defensively — paths
+# depend on ~/.config/zsh/* (those are zsh-only). Written defensively: paths
 # and tools are guarded so it degrades gracefully where they are absent.
 #
 # Deploy: ln -s ~/.dotfiles/bashrc ~/.bashrc
@@ -45,7 +45,7 @@ unset _conda_base
 path_prepend() {
     [ -d "$1" ] || return
     case ":$PATH:" in
-        *":$1:"*) ;;                 # already present — skip
+        *":$1:"*) ;;                 # already present: skip
         *) PATH="$1:$PATH" ;;
     esac
 }
@@ -111,10 +111,13 @@ shopt -s autocd 2>/dev/null    # bash 4+: bare dir name => cd into it
 alias python='python3'
 alias pip='pip3'
 
-# Safety nets
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# Ask before deleting or overwriting, but only when a keyboard is attached to answer.
+# Functions, not aliases, so that it is decided when the command runs: a tool that runs
+# commands with no terminal gets the plain command, not a prompt nobody can answer.
+unalias rm cp mv 2>/dev/null    # so that a reload replaces the aliases these once were
+function rm { if [ -t 0 ]; then command rm -i "$@"; else command rm "$@"; fi; }
+function cp { if [ -t 0 ]; then command cp -i "$@"; else command cp "$@"; fi; }
+function mv { if [ -t 0 ]; then command mv -i "$@"; else command mv "$@"; fi; }
 
 # Navigation
 alias ..='cd ..'
@@ -191,9 +194,9 @@ yessleep() {
     sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }
 
-# Git quick commit, bypassing hooks
+# Commit with a message, e.g. gcq fix the typo; pre-commit hooks still run
 gcq() {
-    git commit --no-verify -m "$*"
+    git commit -m "$*"
 }
 
 # Enhanced history search with fzf
@@ -252,15 +255,17 @@ fkill() {
     fi
 }
 
-# Quick conda environment activation (fzf picker when no arg)
+# Activate a conda environment: `ca ENV`, or pick one with fzf. Activation has to run in
+# this shell, so the choice is captured first (piping it into `xargs conda activate` ran
+# conda in a child process, where it changes nothing).
 ca() {
-    if [ -n "$1" ]; then
-        conda activate "$1"
-    elif command -v fzf >/dev/null 2>&1; then
-        conda env list | grep -v '^#' | fzf | awk '{print $1}' | xargs -r conda activate
-    else
-        conda env list
+    local env="$1"
+    if [ -z "$env" ]; then
+        command -v fzf >/dev/null 2>&1 || { conda env list; return; }
+        env=$(conda env list | grep -v '^#' | fzf | awk '{print $1}')
+        [ -z "$env" ] && return 1
     fi
+    conda activate "$env"
 }
 
 # =============================================================================
@@ -276,10 +281,12 @@ fi
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
 
 # =============================================================================
-# Prompt: (conda env) user dir [git-branch] $   — bash analogue of the zsh prompt
+# Prompt: (conda env) user dir [git-branch] $   (bash analogue of the zsh prompt)
 # =============================================================================
-# Keep conda from prepending its own (env) — we render it ourselves
-command -v conda >/dev/null 2>&1 && conda config --set changeps1 false 2>/dev/null
+# Keep conda from prepending its own (env): the prompt below shows it. conda reads this
+# variable in place of the changeps1 setting, so no conda process is started and
+# ~/.condarc is not rewritten at every start, as `conda config --set` did.
+export CONDA_CHANGEPS1=false
 
 get_conda_env() {
     if [ -n "$CONDA_PREFIX" ]; then

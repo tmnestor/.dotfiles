@@ -1,5 +1,5 @@
 # =============================================================================
-# ~/.bash_profile — login shell entry point
+# ~/.bash_profile: login shell entry point
 # =============================================================================
 # Login shells read this file (not ~/.bashrc). Source ~/.bashrc so interactive
 # login shells get the same setup; keep this file to login-only concerns.

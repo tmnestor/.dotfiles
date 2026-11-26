@@ -1,99 +1,162 @@
 # dotfiles
 
-I ***learned*** about dotfiles at [Udemy](https://www.udemy.com/course/dotfiles-from-start-to-finish-ish/?referralCode=445BE0B541C48FE85276).
+The shell, git and Homebrew set-up of a Mac that uses zsh, with a bash configuration for Linux machines.
 
-## Decommission Computer
+I learned about dotfiles at [Udemy](https://www.udemy.com/course/dotfiles-from-start-to-finish-ish/?referralCode=445BE0B541C48FE85276).
+
+## What is here
+
+| File | Linked as | What it is |
+|---|---|---|
+| `zshrc` | `~/.zshrc` | Interactive zsh, in twelve numbered sections whose order matters (see its header) |
+| `zsh/` | `~/.config/zsh` | The alias files (`aliases/`) and functions (`functions/`) that `zshrc` sources |
+| `bashrc` | `~/.bashrc` | Interactive bash, for Linux machines and for bash on the Mac |
+| `bash_profile` | `~/.bash_profile` | Login bash: it sources `bashrc` |
+| `gitconfig` | `~/.gitconfig` | Git identity, colours, aliases and credential helpers |
+| `Brewfile` | not linked | Every Homebrew formula and cask, VS Code extension and global npm package installed |
+| `macos` | not linked | The macOS settings this Mac holds. `./macos --check` compares them with a Mac and changes nothing; `./macos --apply` writes them |
+
+The files are linked, not copied, so an edit in this folder is live in the next shell that starts, whether
+or not it has been committed.
+
+## Rules the shell files keep
+
+These files are read by a person at a keyboard, and also by tools that take a snapshot of the shell (its
+aliases, functions and options) and then run commands with no terminal attached. Each rule below is here
+because breaking it once cost a hung command or a silently wrong result.
+
+1. **Never alias a command to `tool || fallback`.** An alias is text substitution, so the arguments land on
+   the fallback and the tool runs with none: `cat FILE` became `bat` reading the keyboard. Alias a
+   modern tool only when it is installed, and to itself alone.
+2. **Nothing prompts unless a keyboard is attached.** `rm`, `cp` and `mv` ask before deleting or
+   overwriting only when standard input is a terminal. They are functions for that reason: an alias to
+   `rm -i` is copied into a snapshot and then asks a question nobody can answer.
+3. **`find` and `grep` stay themselves.** `fd` and `rg` take a different syntax; call them by name.
+4. **No hook may depend on state a snapshot does not keep.** A snapshot keeps functions but not a variable
+   declared with `typeset -A`, so a `chpwd` hook that read one broke every `cd`. This is why directory
+   jumping is `zoxide` and not a hand-written plugin.
+5. **The GNU tools come first on the `PATH`** (`sed`, `grep`, coreutils, `make`, findutils). Write GNU
+   syntax: `sed -i 's/a/b/' f`, not `sed -i '' ...`.
+6. **A stand-in that loads a tool on first use removes itself first** (`conda`, `fzf`, `fuck`), so that a
+   missing tool ends in "command not found" and not in a function calling itself.
+
+After any edit, these must hold before the change is committed:
+
+```zsh
+zsh -i -c exit               # prints nothing (iTerm adds its own marks, which do not count)
+bash -n ~/.dotfiles/bashrc
+~/.dotfiles/macos --check    # no setting differs, on the Mac the values were read from
+```
+
+## Keeping Homebrew and the Brewfile current
+
+`zshrc` sets `HOMEBREW_NO_AUTO_UPDATE`, so Homebrew never refreshes itself: nothing is updated until it is
+done by hand. Do it every few weeks.
+
+```zsh
+brew update                 # refresh what Homebrew knows; changes no package
+brew outdated               # read the list before going on
+brew upgrade                # upgrade the formulae, and the casks that do not update themselves
+brew cleanup
+brew bundle dump --force --file ~/.dotfiles/Brewfile    # record the result, then commit it
+```
+
+- **Do not add `--greedy`.** It also upgrades the casks that update themselves, and one of those is
+  `miniforge`: every conda environment lives inside it
+  (`/opt/homebrew/Caskroom/miniforge/base/envs`), and a cask upgrade deletes that folder and installs a
+  new one. The cask moves the environments aside and back, but that has not been tried here. Update
+  conda with conda (`conda update -n base conda`).
+- A major upgrade of `gcc`, `openblas`, `hdf5` or `boost` can break code compiled against the old one
+  until it is rebuilt. Look for them in `brew outdated` first.
+- `brew bundle check --file ~/.dotfiles/Brewfile` reports an installed but outdated package as unmet.
+  That is a reminder to upgrade, not a missing package.
+
+## A new Mac
+
+1. `xcode-select --install` (the Command Line Tools are needed for Git and Homebrew).
+2. `git clone https://github.com/tmnestor/.dotfiles.git ~/.dotfiles`. Start with `https`; switch to `ssh`
+   at step 8.
+3. Install Homebrew:
+
+   ```zsh
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+4. Read `Brewfile` and delete what is no longer wanted, then install the rest:
+
+   ```zsh
+   brew bundle --file ~/.dotfiles/Brewfile
+   ```
+
+5. Link the files into the home folder:
+
+   ```zsh
+   ln -s ~/.dotfiles/zshrc ~/.zshrc
+   ln -s ~/.dotfiles/bashrc ~/.bashrc
+   ln -s ~/.dotfiles/bash_profile ~/.bash_profile
+   ln -s ~/.dotfiles/gitconfig ~/.gitconfig
+   mkdir -p ~/.config && ln -s ~/.dotfiles/zsh ~/.config/zsh
+   ```
+
+6. Restart the terminal. `zsh -i -c exit` should print nothing.
+7. Apply the macOS settings (Finder, Dock, trackpad). The first command lists what would change and
+   changes nothing; neither needs `sudo`:
+
+   ```zsh
+   ~/.dotfiles/macos --check
+   ~/.dotfiles/macos --apply
+   ```
+
+8. [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh), add it
+   to GitHub and switch the remote:
+
+   ```zsh
+   # Generate the key in the default location (~/.ssh/id_ed25519)
+   ssh-keygen -t ed25519 -C "101078845+tmnestor@users.noreply.github.com"
+
+   # Start the ssh-agent and add the key to it and to the keychain
+   eval "$(ssh-agent -s)"
+   ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+
+   # Copy the public key, then add it at github.com > Settings > SSH and GPG keys
+   pbcopy < ~/.ssh/id_ed25519.pub
+
+   # Test the connection, and check the fingerprint and the user name it reports
+   ssh -T git@github.com
+
+   # Switch this repository from HTTPS to SSH
+   git -C ~/.dotfiles remote set-url origin git@github.com:tmnestor/.dotfiles.git
+   ```
+
+   `~/.ssh/config` needs these lines for the key to be used and remembered:
+
+   ```
+   Host *
+     AddKeysToAgent yes
+     UseKeychain yes
+     IdentityFile ~/.ssh/id_ed25519
+   ```
+
+Not kept here, and to be recreated by hand: `~/.zprofile` (it runs `brew shellenv`), `~/.zshenv`,
+`~/.ssh/config` and `~/.condarc`.
+
+## Before giving a Mac away
 
 [Create a bootable USB installer for macOS](https://support.apple.com/en-us/HT201372).
 
 Software audit:
-- Uninstall unwanted software (e.g. GarageBand, iMovie, Keynote, Numbers, Pages)
-- Install missing software (look at `/Applications`, panes in System Preferences , maybe `~/Applications`, etc.)
 
-Backup / sync files:
-- Commit and Push to remote repositories
-- Run `code --list-extensions > vscode_extensions` from `~/.dotfiles` to export [VS Code extensions](vscode_extensions)
-- Time Machine
-- Dropbox / Google Drive
-- Manual Backups (external drives, redundant cloud services)
-- Contacts, Photos, Calendar, Messages (Google, iCloud)
-- etc.
+- Uninstall unwanted software (GarageBand, iMovie, Keynote, Numbers, Pages and the like).
+- Record what is installed: `brew bundle dump --force --file ~/.dotfiles/Brewfile`. Look in
+  `/Applications` and `~/Applications` for anything Homebrew did not install.
 
-Deactivate licenses:
-- Dropbox (`Preferences > Account > Unlink`)
-- ScreenFlow (`Preferences > Licenses > Deactivate`)
-- Sign Out of App Store (`Menu > Store > Sign Out`)
-- iTunes, etc.
+Back up and sync:
 
+- Commit and push every repository.
+- Time Machine, Google Drive, and a manual copy on an external drive.
+- Contacts, Photos, Calendar and Messages (Google, iCloud).
 
-## Restore Instructions
+Deactivate licences and sign out:
 
-1. `xcode-select --install` (Command Line Tools are required for Git and Homebrew)
-2. `git clone https://github.com/tmnestor/.dotfiles.git ~/.dotfiles`. Start with `https` but switch to `ssh` after everything is installed.
-3. `cd ~/.dotfiles`
-4. If necessary, `git checkout <another_branch>`.
-5. Do one last Software Audit by editing [Brewfile](Brewfile) directly.
-6. [`./install`](install)
-7. Restart computer.
-8. [Generate ssh key](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh), add to GitHub, and switch remotes.
-
-    ```zsh
-    # Generate SSH key in default location (~/.ssh/config)
-    ssh-keygen -t ed25519 -C "101078845+tmnestor@users.noreply.github.com"
-
-    # Start the ssh-agent
-    eval "$(ssh-agent -s)"
-
-    # Create config file with necessary settings
-    << EOF > ~/.ssh/config
-    Host *
-      AddKeysToAgent yes
-      UseKeychain yes
-      IdentityFile ~/.ssh/id_ed25519
-    EOF
-
-    # Add private key to ssh-agent (macos 12.0 Monterey) 
-    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-
-    # Copy public key and add to github.com > Settings > SSH and GPG keys
-    pbcopy < ~/.ssh/id_rsa.pub
-
-    # Test SSH connection, then verify fingerprint and username
-    # https://help.github.com/en/github/authenticating-to-github/testing-your-ssh-connection
-    ssh -T git@github.com
-
-    # Switch from HTTPS to SSH
-    git remote set-url origin git@github.com:tmnestor/.dotfiles.git
-    ```
-## Create symlinks in the Home directory to the real files in the repo.
-
-```zsh
-# There are better and less manual ways to do this;
-# investigate install scripts and bootstrapping tools.
-
-ln -s ~/.dotfiles/macos ~/.macos
-ln -s ~/.dotfiles/zshrc ~/.zshrc
-ln -s ~/.dotfiles/gitconfig ~/.gitconfig
-mkdir -p ~/.config && ln -s ~/.dotfiles/zsh ~/.config/zsh
-```
-
-
-## Install Homebrew, followed by the software listed in the Brewfile.
-
-```zsh
-# These could also be in an install script.
-
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Then pass in the Brewfile location...
-brew bundle --file ~/.dotfiles/Brewfile --describe
-
-# ...or move to the directory first.
-cd ~/.dotfiles && brew bundle --describe
-```
-
-
-
-
-
+- App Store (`Menu > Store > Sign Out`)
+- iCloud, Google Drive and any application licensed to the machine
