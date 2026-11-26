@@ -33,7 +33,7 @@ __pycache__/
 .mypy_cache/
 
 # =============================================================================
-# Secrets — never commit these to a public dotfiles repo
+# Secrets: never commit these to a public dotfiles repo
 # =============================================================================
 *.pem
 *.key
