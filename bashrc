@@ -111,10 +111,13 @@ shopt -s autocd 2>/dev/null    # bash 4+: bare dir name => cd into it
 alias python='python3'
 alias pip='pip3'
 
-# Safety nets
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# Ask before deleting or overwriting, but only when a keyboard is attached to answer.
+# Functions, not aliases, so that it is decided when the command runs: a tool that runs
+# commands with no terminal gets the plain command, not a prompt nobody can answer.
+unalias rm cp mv 2>/dev/null    # so that a reload replaces the aliases these once were
+function rm { if [ -t 0 ]; then command rm -i "$@"; else command rm "$@"; fi; }
+function cp { if [ -t 0 ]; then command cp -i "$@"; else command cp "$@"; fi; }
+function mv { if [ -t 0 ]; then command mv -i "$@"; else command mv "$@"; fi; }
 
 # Navigation
 alias ..='cd ..'
